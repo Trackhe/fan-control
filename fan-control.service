@@ -1,0 +1,7 @@
+[Unit]
+
+Description=Fan-Control
+
+[Service]
+
+ExecStart=/usr/sbin/fan-control

@@ -186,8 +186,8 @@ if __name__ == '__main__':
         GPIO.setmode(GPIO.BCM)
 
         if controller_mode != "clientonly":
-        control_standalone_thread = ControlStandalone()
-        control_standalone_thread.start()
+            control_standalone_thread = ControlStandalone()
+            control_standalone_thread.start()
 
         if controller_mode == "client":
             control_client_thread = ControlClient()

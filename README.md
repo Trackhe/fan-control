@@ -10,7 +10,7 @@ apt-get install RPi.GPIO
 
 
 
-copy `fan-control.service` in the folder `~/.config/systemd/user/`
+copy `fan-control.service` in the folder `/etc/systemd/system/`
 
 
 sudo su -l

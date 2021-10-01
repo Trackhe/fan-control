@@ -1,7 +1,11 @@
 [Unit]
-
 Description=Fan-Control
+After=multi-user.target
 
 [Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /usr/sbin/fan-control.py
 
-ExecStart=/usr/sbin/fan-control
+[Install]
+WantedBy=multi-user.target

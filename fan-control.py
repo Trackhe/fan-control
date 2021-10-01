@@ -18,7 +18,7 @@ master_case_fan_transistor = "pwm" # use npn, pnp or pwm
 master_port = 25565
 master_client_adress = "10.10.150.161"
 
-controller_mode = "master" # master, client, clientonly, standalone : master runs standalone and master together
+controller_mode = "master" # master, masteronly, client, clientonly, standalone : master runs standalone and master together
 
 clientarray = {"localhost" : [0, time.time()]}
 
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     try:
         GPIO.setmode(GPIO.BCM)
 
-        if controller_mode != "clientonly":
+        if controller_mode != "clientonly" and controller_mode != "masteronly":
             control_standalone_thread = ControlStandalone()
             control_standalone_thread.start()
 
@@ -193,7 +193,7 @@ if __name__ == '__main__':
             control_client_thread = ControlClient()
             control_client_thread.start()
 
-        if controller_mode == "master":
+        if controller_mode == "master" or controller_mode == "masteronly":
             control_master_thread = ControlMaster()
             control_master_thread.daemon = True
             control_master_thread.start()

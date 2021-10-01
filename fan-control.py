@@ -189,7 +189,7 @@ if __name__ == '__main__':
             control_standalone_thread = ControlStandalone()
             control_standalone_thread.start()
 
-        if controller_mode == "client":
+        if controller_mode == "client" or controller_mode == "clientonly":
             control_client_thread = ControlClient()
             control_client_thread.start()
 

@@ -8,15 +8,15 @@ temp_target = 40 # use ca 5 degrees more then idle tempeture
 temp_max = 55
 fan_cuttoff = 8 # percentage from 0 to 100 that shut the fan at low rpm off dont choice it to high
 
-fan_gpio = 23
+fan_gpio = 24
 fan_pwm_freq = 100
 fan_transistor = "npn" # use npn, pnp or pwm
 
-master_case_fan_gpio = 24
+master_case_fan_gpio = 23
 master_case_fan_pwm_freq = 100
-master_case_fan_transistor = "pwm" # use npn, pnp or pwm
+master_case_fan_transistor = "npn" # use npn, pnp or pwm
 master_port = 25565
-master_client_adress = "10.10.150.161"
+master_client_adress = "ip"
 
 controller_mode = "master" # master, masteronly, client, clientonly, standalone : master runs standalone and master together
 
@@ -26,11 +26,11 @@ class ControlStandalone (threading.Thread):
     def run(self):
         # code
         if fan_transistor == "npn":
-            fan_off = 0
-            fan_on = 100
-        else:
             fan_off = 100
             fan_on = 0
+        else:
+            fan_on = 100
+            fan_off = 0
 
         GPIO.setup(fan_gpio, GPIO.OUT)
         fan_pwm = GPIO.PWM(fan_gpio, fan_pwm_freq)  # frequency=100Hz
@@ -126,11 +126,11 @@ class ControlMaster (threading.Thread):
 class ControlMasterPWM (threading.Thread):
     def run(self):
         if master_case_fan_transistor == "npn":
-            fan_off = 0
-            fan_on = 100
-        else:
             fan_off = 100
             fan_on = 0
+        else:
+            fan_on = 100
+            fan_off = 0
 
         GPIO.setup(master_case_fan_gpio, GPIO.OUT)
         master_case_fan_pwm = GPIO.PWM(master_case_fan_gpio, master_case_fan_pwm_freq)  # frequency=100Hz

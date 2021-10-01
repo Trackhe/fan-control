@@ -18,7 +18,7 @@ master_case_fan_transistor = "pwm" # use npn, pnp or pwm
 master_port = 25565
 master_client_adress = "10.10.150.161"
 
-controller_mode = "master" # master, client, standalone : master runs standalone and master together
+controller_mode = "master" # master, client, clientonly, standalone : master runs standalone and master together
 
 clientarray = {"localhost" : [0, time.time()]}
 
@@ -26,11 +26,11 @@ class ControlStandalone (threading.Thread):
     def run(self):
         # code
         if fan_transistor == "npn":
-            fan_off = 100
-            fan_on = 0
-        else:
             fan_off = 0
             fan_on = 100
+        else:
+            fan_off = 100
+            fan_on = 0
 
         GPIO.setup(fan_gpio, GPIO.OUT)
         fan_pwm = GPIO.PWM(fan_gpio, fan_pwm_freq)  # frequency=100Hz
@@ -126,11 +126,11 @@ class ControlMaster (threading.Thread):
 class ControlMasterPWM (threading.Thread):
     def run(self):
         if master_case_fan_transistor == "npn":
-            fan_off = 100
-            fan_on = 0
-        else:
             fan_off = 0
             fan_on = 100
+        else:
+            fan_off = 100
+            fan_on = 0
 
         GPIO.setup(master_case_fan_gpio, GPIO.OUT)
         master_case_fan_pwm = GPIO.PWM(master_case_fan_gpio, master_case_fan_pwm_freq)  # frequency=100Hz
@@ -185,6 +185,7 @@ if __name__ == '__main__':
     try:
         GPIO.setmode(GPIO.BCM)
 
+        if controller_mode != "clientonly":
         control_standalone_thread = ControlStandalone()
         control_standalone_thread.start()
 
